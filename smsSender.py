@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
+import hashlib
+import re
 
 class SMS:
     def __init__(self, l, p):
@@ -9,13 +11,19 @@ class SMS:
 
     def doRequest(self, rqData, url):
         rqData["login"] = self.login
-        rqData["psw"] = self.psw
+        psw = self.psw
+        m = hashlib.md5()
+        m.update(psw.encode('utf-8'))
+        rqData["psw"] = m.hexdigest()
         r = requests.get(self.url + url, params=rqData)
         return r.text
 
     def sendSMS(self, phone, message,sender=''):
-        rqData = {"phones": phone, "mes": message, "charset": "utf-8"}
-        if sender != "":
-            rqData['sender'] = sender
-        return self.doRequest(rqData, "sys/send.php")
+        if re.match(r'7[0-9]{10}', phone) and len(phone)==11:
+            rqData = {"phones": phone, "mes": message, "charset": "utf-8"}
+            if sender != "":
+                rqData['sender'] = sender
+            return self.doRequest(rqData, "sys/send.php")
+        else:
+            return "Wrong type Number"
 
