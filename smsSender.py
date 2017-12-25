@@ -27,3 +27,7 @@ class SMS:
         else:
             return "Wrong type Number"
 
+    def balance(self):
+        rqData = {}
+        return self.doRequest(rqData, "sys/balance.php")
+
