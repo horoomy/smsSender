@@ -21,7 +21,7 @@ class SMS:
 
     def sendSMS(self, phone, message,sender=''):
         if self.checkPhone(phone) != 0:
-            rqData = {"phones": phone, "mes": message, "charset": "utf-8"}
+            rqData = {"phones": phone, "mes": message, "charset": "utf-8", "fmt": "3"}
             if sender != "":
                 rqData['sender'] = sender
             return self.doRequest(rqData, "sys/send.php")
@@ -29,11 +29,11 @@ class SMS:
             return "Wrong type Number"
 
     def balance(self):
-        rqData = {}
+        rqData = {"fmt": "3"}
         return self.doRequest(rqData, "sys/balance.php")
 
     def history(self,cnt="1", start="", end="", phone=""):
-        rqData = {"get_messages": "1","cnt":cnt}
+        rqData = {"get_messages": "1","cnt":cnt, "fmt": "3"}
         if cnt != "1":
             rqData["cnt"] = str(cnt)
         if phone != "":
