@@ -57,7 +57,7 @@ class SMS:
         return self.doRequest(rqData,"sys/get.php")
 
     def getStatistic(self, start, end="", mycur="1"):
-        rqData = {"get_stat": "1", "start": start, "mucur": mycur}
+        rqData = {"get_stat": "1", "start": start, "mucur": mycur, "fmt": "3"}
         if self.checkData(start) != 0:
             rqData["end"] = end
         else:
