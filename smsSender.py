@@ -46,15 +46,28 @@ class SMS:
             if self.checkData(start) != 0:
                 rqData["start"] = start
             else:
-                print("Error, Wrong type start")
-                return "Wrong type start"
+                print("Error, Wrong type date(start)")
+                return "Wrong type date(start)"
         if end != "":
             if self.checkData(end) != 0:
                 rqData["end"] = end
             else:
-                print("Error, Wrong type end")
-                return "Wrong type end"
+                print("Error, Wrong type date(end)")
+                return "Wrong type date(end)"
         return self.doRequest(rqData,"sys/get.php")
+
+    def getStatistic(self, start, end="", mycur="1"):
+        rqData = {"get_stat": "1", "start": start, "mucur": mycur}
+        if self.checkData(start) != 0:
+            rqData["end"] = end
+        else:
+            print("Error, Wrong type date")
+            return "Wrong type date"
+        if self.checkData(start) != 0:
+            return self.doRequest(rqData, "sys/get.php")
+        else:
+            print("Error, Wrong type date")
+            return "Wrong type date"
 
     def checkPhone(self, phone):
         if re.match(r'7[0-9]{10}', phone) and len(phone) == 11:
